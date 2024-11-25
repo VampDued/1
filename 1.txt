@@ -36,11 +36,12 @@ from sklearn.model_selection import train_test_split
 from sklearn import tree
 import matplotlib.pyplot as plt
 
-file_path = "Sheet1.csv" 
-df = pd.read_csv(file_path)
-
-data = df.to_dict(orient='list')
-
+data = {
+    'Age': ['Youth', 'Youth', 'Middle-aged', 'Senior', 'Senior', 'Senior', 'Middle-aged', 'Youth', 'Youth', 'Senior', 'Youth', 'Middle-aged', 'Middle-aged', 'Senior'],
+    'Income': ['High', 'High', 'High', 'Medium', 'Low', 'Low', 'Low', 'Medium', 'Low', 'Medium', 'Medium', 'Medium', 'High', 'Medium'],
+    'Marital_Status': ['Single', 'Single', 'Married', 'Married', 'Married', 'Single', 'Single', 'Single', 'Married', 'Single', 'Married', 'Married', 'Single', 'Married'],
+    'Buys_Product': ['No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No']
+}
 df = pd.DataFrame(data)
 
 df_encoded = pd.get_dummies(df.drop(columns='Buys_Product'))
