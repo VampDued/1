@@ -1,0 +1,207 @@
+#1 LINEAR REGRESSION ALGORITHM
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error,r2_score
+
+x=[12,4,35,43,65,76,80,98]
+y=[32,5,65,24,432,4,42,44]
+
+data=pd.DataFrame({'X':x,'Y':y})
+
+x_train,x_test,y_train,y_test=train_test_split(data[['X']],data[['Y']],test_size=.2,random_state=43)
+model1=LinearRegression()
+model1.fit(x_train,y_train)
+
+y_predit=model1.predict(x_test)
+
+print(f'MSE:{mean_squared_error(y_test,y_predit):.2f}')
+print(f'R^2:{r2_score(y_test,y_predit):.2f}')
+
+plt.scatter(x_test,y_test,label='actual')
+plt.scatter(x_test,y_predit,label='predicted')
+plt.plot(x_test,y_predit)
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.title("Linear Regression model")
+plt.legend()
+plt.show()
+-------------------------------------------------------------
+#2 DECISION TREE ALGORITHM
+
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn import tree
+import matplotlib.pyplot as plt
+
+file_path = "Sheet1.csv" 
+df = pd.read_csv(file_path)
+
+data = df.to_dict(orient='list')
+
+df = pd.DataFrame(data)
+
+df_encoded = pd.get_dummies(df.drop(columns='Buys_Product'))
+
+df['Buys_Product'] = df['Buys_Product'].replace({'No': 0, 'Yes': 1})
+
+X = df_encoded
+y = df['Buys_Product']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+clf = DecisionTreeClassifier()
+
+clf.fit(X_train, y_train)
+
+y_pred = clf.predict(X_test)
+
+accuracy = clf.score(X_test, y_test)
+print(f"\nModel accuracy: {accuracy * 100:.2f}%")
+
+plt.figure(figsize=(12, 8))
+tree.plot_tree(clf, filled=True, feature_names=X.columns, class_names=['No', 'Yes'])
+plt.show()
+-------------------------------------------------
+#3 Random Forest algorithm 
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+data = {
+    'Age': ['Youth', 'Youth', 'Middle-aged', 'Senior', 'Senior', 'Senior', 'Middle-aged', 'Youth', 'Youth', 'Senior', 'Youth', 'Middle-aged', 'Middle-aged', 'Senior'],
+    'Income': ['High', 'High', 'High', 'Medium', 'Low', 'Low', 'Low', 'Medium', 'Low', 'Medium', 'Medium', 'Medium', 'High', 'Medium'],
+    'Marital_Status': ['Single', 'Single', 'Married', 'Married', 'Married', 'Single', 'Single', 'Single', 'Married', 'Single', 'Married', 'Married', 'Single', 'Married'],
+    'Buys_Product': ['No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No']
+}
+
+df = pd.DataFrame(data)
+
+df_encoded = pd.get_dummies(df.drop(columns='Buys_Product'))
+
+df['Buys_Product'] = df['Buys_Product'].replace({'No': 0, 'Yes': 1})
+
+X = df_encoded
+y = df['Buys_Product']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+rf_classifier = RandomForestClassifier(n_estimators=100, random_state=42)
+
+rf_classifier.fit(X_train, y_train)
+
+y_pred = rf_classifier.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+print(f"\nModel accuracy: {accuracy * 100:.2f}%")
+
+importances = rf_classifier.feature_importances_
+feature_names = X.columns
+
+print("\nFeature Importances:")
+for feature, importance in zip(feature_names, importances):
+    print(f"{feature}: {importance:.4f}")
+---------------------------------------------------------------------------
+#4 Support Vector Machines (SVM)
+import pandas as pd
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+data = {
+    'Age': ['Youth', 'Youth', 'Middle-aged', 'Senior', 'Senior', 'Senior', 'Middle-aged', 'Youth', 'Youth', 'Senior', 'Youth', 'Middle-aged', 'Middle-aged', 'Senior'],
+    'Income': ['High', 'High', 'High', 'Medium', 'Low', 'Low', 'Low', 'Medium', 'Low', 'Medium', 'Medium', 'Medium', 'High', 'Medium'],
+    'Marital_Status': ['Single', 'Single', 'Married', 'Married', 'Married', 'Single', 'Single', 'Single', 'Married', 'Single', 'Married', 'Married', 'Single', 'Married'],
+    'Buys_Product': ['No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No']
+}
+
+df = pd.DataFrame(data)
+
+print("Original DataFrame:")
+print(df)
+
+df_encoded = pd.get_dummies(df.drop(columns='Buys_Product'))
+
+df['Buys_Product'] = df['Buys_Product'].replace({'No': 0, 'Yes': 1})
+
+X = df_encoded
+y = df['Buys_Product']
+
+print("\nEncoded Features (X):")
+print(X)
+
+print("\nTarget (y):")
+print(y)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+svm_classifier = SVC(kernel='linear', random_state=42)
+
+svm_classifier.fit(X_train, y_train)
+
+y_pred = svm_classifier.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+print(f"\nModel accuracy: {accuracy * 100:.2f}%")
+----------------------------------------------------
+#5 K-MEANS CLUSTERING
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+data = {
+    'pH': [7.0, 8.5, 6.5, 7.8, 6.0, 7.2, 7.6, 8.0, 6.8, 7.5, 8.3, 7.1, 6.4, 8.6, 7.3],
+    'Turbidity': [3, 7, 4, 6, 5, 3, 8, 6, 5, 4, 7, 6, 3, 7, 4],
+    'Dissolved_Oxygen': [9.1, 7.5, 8.6, 7.2, 9.0, 8.8, 7.3, 7.9, 8.0, 8.4, 7.4, 7.6, 9.2, 7.3, 8.7]
+}
+df = pd.DataFrame(data)
+print("Original Water Quality Data:")
+print(df)
+kmeans = KMeans(n_clusters=4, random_state=42)
+kmeans.fit(df)
+df['Cluster'] = kmeans.predict(df)
+print("\nClustered Data:")
+print(df)
+plt.figure(figsize=(8, 6))
+scatter = plt.scatter(df['pH'], df['Dissolved_Oxygen'], c=df['Cluster'], cmap='viridis', s=100)
+plt.xlabel('pH')
+plt.ylabel('Dissolved Oxygen')
+plt.title('K-Means Clustering of Water Quality')
+plt.colorbar(label='Cluster')
+plt.show()
+--------------------------------------------------------
+#6 STACKING ALGORITHM
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from sklearn.ensemble import StackingRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+data = {
+    'Cement': [540, 450, 610, 570, 620, 630, 520, 590, 610, 580],
+    'Water': [162, 175, 165, 180, 158, 177, 169, 173, 160, 168],
+    'Fine_Aggregate': [1040, 965, 1070, 980, 960, 1060, 1080, 1010, 950, 1000],
+    'Coarse_Aggregate': [852, 880, 870, 840, 880, 870, 860, 855, 875, 860],
+    'Strength': [79, 61, 78, 59, 82, 75, 72, 74, 80, 63]  
+}
+df = pd.DataFrame(data)
+print("Civil Engineering Data for Concrete Strength Prediction:")
+print(df)
+X = df[['Cement', 'Water', 'Fine_Aggregate', 'Coarse_Aggregate']]
+y = df['Strength']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+base_learners = [
+    ('lr', LinearRegression()),
+    ('dt', DecisionTreeRegressor(random_state=42)),
+    ('rf', RandomForestRegressor(n_estimators=10, random_state=42))
+]
+meta_learner = GradientBoostingRegressor(random_state=42)
+stacking_model = StackingRegressor(estimators=base_learners, final_estimator=meta_learner)
+stacking_model.fit(X_train, y_train)
+y_pred = stacking_model.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+print(f"\nMean Squared Error of Stacking Model: {mse:.2f}")
+------------------------------------------------------
