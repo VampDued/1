@@ -1,3 +1,4 @@
+https://drive.google.com/file/d/1_JNcxbKeqeD3jkM04ZwP1QKRW4PAQCdA/view?usp=drive_link
 #1 LINEAR REGRESSION ALGORITHM
 import pandas as pd
 import matplotlib.pyplot as plt
